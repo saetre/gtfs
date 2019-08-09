@@ -1,0 +1,247 @@
+h1, h2, h3 {
+	font-weight: normal;
+	margin: 0;
+}
+
+h3 {
+	margin-top: 2em;
+}
+
+html {
+	font: 100%/1.5 'Droid Sans', Arial, 'Sans Serif';
+	background: #f6f6f6;
+	color: #333;
+}
+
+html, body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#header,
+#nav ul,
+#page,
+#progress {
+	width: 60em;
+	margin: 0 auto;
+}
+
+#header,
+#nav,
+#page {
+	padding: 0 1em;
+}
+
+#header h1 {
+	margin: 0;
+	padding: 1em 0;
+}
+
+#nav {
+	display: block;
+	background: #890;
+	text-shadow: 0 1px 1px rgba(0,0,0, .3);
+}
+
+#nav ul {
+	padding: 0;
+}
+
+#nav ul li {
+	display: inline;
+	margin-right: 2em;
+}
+
+#nav ul li a {
+	padding: .7em .5em;
+	color: white;
+	display: inline-block;
+	text-decoration: none;
+}
+
+#nav ul li.selected a {
+	background: url(selectedtab.png) 50% 100% no-repeat;
+}
+
+#nav ul li a:active,
+#nav ul li a:focus,
+#nav ul li a:hover {
+	text-decoration: underline;
+}
+
+
+#page {
+	padding: 2em 1em;
+}
+
+#page .instructions {
+	
+	margin-bottom: 2em;
+}
+
+#file_upload-queue {
+	display: none;
+}
+
+
+#filelist {
+	padding: 0;
+	margin: 0;
+	margin-top: 3em;
+	list-style: none;
+}
+
+#filelist>li {
+	float: left;
+	border: .1em solid #ccc;
+	background: #fff;
+	margin: 0 1em 1em 0;
+	border-radius: .2em;
+	vertical-align: middle;
+	position: relative;
+	width: 13em;
+	min-height: 18em;
+	padding: .5em;
+	padding-bottom: 3.2em;
+}
+
+
+#filelist p {
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
+
+#filelist p.error {
+	font-weight: bold;
+	text-align: center;
+	position: absolute;
+	bottom: .5em;
+	right: .5em;
+	left: .5em;
+	color: #800;
+}
+
+#filelist p.head {
+	border-bottom: .2em solid #ccc;
+	border-radius: .1em .1em 0 0;
+	text-align: center;
+	padding: 0 1em .2em;
+	font-weight: bold;
+}
+
+#filelist>li.OK p.head {
+	border-color: #890;
+}
+#filelist>li.NOZIP p.head,
+#filelist>li.UNKNOWNFILE p.head,
+#filelist>li.CONTENTERROR p.head,
+#filelist>li.UNKNOWNFILEERROR p.head {
+	border-color: #a00;
+}
+
+#filelist ul {
+	list-style: none;
+	margin: 1em;
+	padding: 0;
+}
+
+#filelist ul label {
+	display: block;
+	font-size: .9em;
+	color: #999;
+	margin-left: 0;
+	font-variant: small-caps;
+	font-weight: normal;
+}
+
+#filelist td:first-child {
+	text-align: right;
+}
+
+#filelist a {
+	position: absolute;
+	bottom: .5em;
+	right: .5em;
+	left: .5em;
+	background: #666;
+	display: block;
+	border-radius: .2em;
+	padding: .5em 1em;
+	text-decoration: none;
+	text-align: center;
+	color: #fff;
+	font-size: .9em;
+}
+
+#filelist a.clicked {
+	cursor: default;
+}
+
+#filelist a.approved {
+	background: #393;
+}
+
+#filelist a.error {
+	background: #900;
+}
+
+#filelist p.overwriteWarning {
+	display: none;
+	padding: 1em;
+	padding-bottom: 3.7em;
+	background: #900;
+	color: #fff;
+	position: absolute;
+	left: -.2em;
+	right: -.2em;
+	bottom: -.2em;
+	border-radius: .3em;
+	box-shadow: 0 0 .5em rgba(0,0,0,.2);
+	font-size: .9em;
+	z-index: 1;
+}
+
+#filelist p.overwriteWarning a {
+	margin: 1em 0 0 0;
+	font-size: 1em;
+	border: 1px solid #fff;
+	left: .7em;
+	right: .7em;
+	bottom: .7em;
+}
+
+#filelist ul li .dot:last-child {
+	display: none;
+}
+
+#filelist .ext {
+	text-transform: uppercase;
+}
+
+#filelist .ext.MISSING {
+	border-bottom: .2em solid #800;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin-top: 1.5em;
+}
+
+th {
+	border-top: 1px solid #000;
+	border-bottom: 2px solid #000;
+	text-align: left;
+}
+
+td {
+	border-bottom: 1px dotted #666;
+	padding: .1em .5em;
+}
+
+tr.expired td {
+	text-decoration: line-through;
+	color: #999;
+}
