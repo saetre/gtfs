@@ -64,8 +64,8 @@ public class ConvertGTFS {
 	//	private static final String GTFS_INPUT_ROOT_FOLDER = "RegTopp AtB/Gråkallbanen";
 	//	private static String BUSTUC_OUTPUT_ROOT_FOLDER = "C:/eclipse/workspace_prolog/BussTUC/db/tables"; //U-zippet
 
-	private static String GTFS_INPUT_ROOT_FOLDER = "data/tables_GTFS_2019.06.19";	// RS-180810; //FIXED?: Inneholder zip-filer fra https://www.entur.org/dev/rutedata/
-	private static String BUSTUC_OUTPUT_ROOT_FOLDER = "C:/eclipse/git/busstuc/db/tables"; //U-zippet
+	private static String GTFS_INPUT_ROOT_FOLDER = "../data/tables_GTFS_2019.08.09";	// RS-180810; //FIXED?: Inneholder zip-filer fra https://www.entur.org/dev/rutedata/
+	private static String BUSTUC_OUTPUT_ROOT_FOLDER = "../../busstuc/db/tables"; //U-zippet
 
 	/** Holds input file sets */
 	public TreeMap<String,FileSet> index;
