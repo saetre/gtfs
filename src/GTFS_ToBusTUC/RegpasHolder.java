@@ -90,7 +90,7 @@ public class RegpasHolder {
 		TdaSegment temp = new TdaSegment( tdax.trim() ); // new TdaSegment(tdax);  %% TA-110216
 		
 		String start = START_NUMBER;
-		Integer start_minutes = new Integer( Integer.parseInt( START_NUMBER ));
+		Integer start_minutes = Integer.parseInt( START_NUMBER );
 		for (int j=0;j<antall;j++) {
 			if ( j+pos < 1 ){	// RS-120120
 				debug(0, "ERROR: Antall="+antall+", pos="+pos+", size="+tdaTab.size()+", and TDA Segment["+antall+pos+"]:"+tdaTab.get(antall+pos) );
@@ -98,17 +98,17 @@ public class RegpasHolder {
 				TdaRec leg = tdaTab.get(j+pos-1);
 				if ( start.equals( START_NUMBER ) ){
 					start = leg.arr;
-					Integer start_hours = new Integer( Integer.parseInt(leg.arr )) / 100;
-					start_minutes = new Integer( Integer.parseInt(leg.arr )) - start_hours * 100 + start_hours * 60;
+					Integer start_hours = Integer.parseInt(leg.arr ) / 100;
+					start_minutes = Integer.parseInt(leg.arr ) - start_hours * 100 + start_hours * 60;
 					leg.arr = START_NUMBER;
 				}else{
-					Integer hours = new Integer( Integer.parseInt(leg.arr) ) / 100;
-					Integer minutes = new Integer( Integer.parseInt(leg.arr) ) - hours * 100 + hours * 60;
+					Integer hours = Integer.parseInt(leg.arr) / 100;
+					Integer minutes = Integer.parseInt(leg.arr) - hours * 100 + hours * 60;
 					Integer arrival = minutes - start_minutes;
 					leg.arr = arrival.toString();
 				}
-				Integer hours = new Integer( Integer.parseInt(leg.dep) ) / 100;
-				Integer minutes = new Integer( Integer.parseInt(leg.dep) ) - hours * 100 + hours * 60;
+				Integer hours = Integer.parseInt(leg.dep) / 100;
+				Integer minutes = Integer.parseInt(leg.dep) - hours * 100 + hours * 60;
 				Integer departure = minutes - start_minutes;
 				leg.dep = departure.toString();
 				
