@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import regtopToBusTUC.ConvertRegTop;
+//import regtopToBusTUC.ConvertRegTop;
 
 /**
 	Class for the prolog predicates passes4 (3?) and ntourstops.<BR>
@@ -25,7 +25,7 @@ import regtopToBusTUC.ConvertRegTop;
 
 public class RegpasHolder {
 
-	private static final String OUTPUT_ENCODING = ConvertRegTop.OUTPUT_ENCODING;
+	private static final String OUTPUT_ENCODING = ConvertGTFS.OUTPUT_ENCODING;
 
 	private static final String START_NUMBER = "999";
 
@@ -72,7 +72,7 @@ public class RegpasHolder {
 
 
 	public void debug(int level, String message){
-		ConvertRegTop.debug(level, message);
+		ConvertGTFS.debug(level, message);
 	} // debug
 	
 	/**	collects data from the tix file. 	*/
@@ -181,7 +181,7 @@ public class RegpasHolder {
 			BufferedWriter outFile = new BufferedWriter(
 				new OutputStreamWriter(new FileOutputStream(directory+File.separator+"regpas.pl"), OUTPUT_ENCODING));
 			
-			if(ConvertRegTop.OUTPUT_ENCODING.equals("utf-8"))
+			if(ConvertGTFS.OUTPUT_ENCODING.equals("utf-8"))
 				outFile.write("/* -*- Mode:Prolog; coding:utf-8; -*- */\n");
 			else
 				outFile.write("/* -*- Mode:Prolog; coding:iso-8859-1; -*- */\n");
