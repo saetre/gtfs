@@ -44,15 +44,19 @@ ATB:Line:0007-2019-01-01, ATB:Timetable:1600018-2019-01-01, ATB:VehicleJourney:0
 		//String atbTimeIdDayDate = parts[1].split(":")[2];
 		String idDay = parts[1].split(":")[2].split("-")[0];
 		String[] atbLineID = parts[2].split(":");
-		//String[] lineDates = atbLineID[2].split("-");
+		
+		String[] lineIdTour = atbLineID[2].split("_"); // RS-2020.01.30
 
 		if (debugcounter++ % 1000 == 0){
 			ConvertGTFS.debug(2, "Doing trips.txt line "+debugcounter+" - "+parts[2] );
 			//ConvertGTFS.debug(-1, "OOps! "+lineDates[0] );
 		}
 
-		line.value = atbLineID[2].substring(0,4);
-		tour.value = atbLineID[2].substring(4,8);
+		//line.value = atbLineID[2].substring(0,4);
+		//tour.value = atbLineID[2].substring(4,8);
+		line.value = lineIdTour[0];
+		tour.value = lineIdTour[2];
+		
 		dayc.value = idDay.substring(4,7);
 		dirTms.value = parts[5];
 
