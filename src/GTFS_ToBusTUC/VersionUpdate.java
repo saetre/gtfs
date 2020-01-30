@@ -16,7 +16,7 @@ public class VersionUpdate{
 	public static void updateVersion( String comment, String path ) throws Exception{
 		
 		Date date = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
 		String dateFormatted = format.format(date);		// yymmdd
 
 		try { //Fix encoding
@@ -28,12 +28,13 @@ public class VersionUpdate{
 		+"%% FILE version.pl\n"
 		+"%% SYSTEM TUC\n"
 		+"%% CREATED TA-970913\n"
-		+"/* REVISED : RS- */  version_date('AtB-I  Date "+dateFormatted+"  "+comment+"')."
+		+"/* REVISED : RS- */  version_date('AtB-I "+comment+", updated on "+ new Timestamp(new Date().getTime()) +"')."
 		+"\n\n"
 		+"%% "+comment+"\n";
 
 		//				version.pl
 		File file = new File( path );
+		System.out.println("Path is "+path);
 
 		//FileOS: false => new file , true => append file
 		OutputStreamWriter fileWriter = new OutputStreamWriter( new FileOutputStream( file, false ), ConvertGTFS.OUTPUT_ENCODING  );

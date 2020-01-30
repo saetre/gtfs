@@ -4,7 +4,7 @@ $regtopp_data = '/regtopp/data';
 //regtopp upload:
 $data_input = $_SERVER['DOCUMENT_ROOT'].$regtopp_data.'/temp';
 //$data_output = $_SERVER['DOCUMENT_ROOT'].$regtopp_data.'/';
-$data_output = '/home/busstuc/busstuc/db/tables/';
+$data_output = '/lhome/busstuc/busstuc/db/tables/';
 $datafolder = 'data';
 //new regtopp zips
 $regtopp_uploads = '/regtopp/uploads';
@@ -18,14 +18,14 @@ $javaConverter = 'regtopToBusTUC.ConvertRegTop';
 
 //TopRegUpdate.java
 $javaTopRegUpdater = 'regtopToBusTUC.TopRegUpdate';
-$routePeriod = '/home/busstuc/busstuc/db/route_period.pl';
+$routePeriod = '/lhome/busstuc/busstuc/db/route_period.pl';
 
 //VersionUpdate.java
 $javaVersionUpdater = 'regtopToBusTUC.VersionUpdate';
-$versionFile = '/home/busstuc/busstuc/version.pl';
+$versionFile = '/lhome/busstuc/busstuc/version.pl';
 
 //extract_cut.sh
-$regcut = '/home/busstuc/busstuc/compile/extract_cut.sh';
+$regcut = '/lhome/busstuc/busstuc/compile/extract_cut.sh';
 
 ?>
 	
