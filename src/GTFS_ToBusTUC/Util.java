@@ -119,11 +119,11 @@ public class Util {
 
 		String strID = statid.toString();
 
-		//Remove final (K) from all stat-ids, already converted to _k
-		if ( strID.endsWith("_k") ){
-			strID = strID.replaceFirst("_k$", "" );
-			ConvertGTFS.debug(1, "Knutepunkt (K): "+strID );
-		}
+//Remove final (K) from all stat-ids, already converted to _k //RS-2020.02.01: NOT VALID AFTER 2019 
+//		if ( strID.endsWith("_k") ){
+//			strID = strID.replaceFirst("_k$", "" );
+//			ConvertGTFS.debug(1, "Knutepunkt (K): "+strID );
+//		}
 		
 		return strID;
 	}// conv_statname

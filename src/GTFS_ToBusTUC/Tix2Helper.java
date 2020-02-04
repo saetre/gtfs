@@ -42,7 +42,7 @@ ATB:Line:0007-2019-01-01, ATB:Timetable:1600018-2019-01-01, ATB:VehicleJourney:0
 	public void getLine( String iObj ){
 		String[] parts = iObj.split(",");
 		//String atbTimeIdDayDate = parts[1].split(":")[2];
-		String idDay = parts[1].split(":")[2].split("-")[0];
+		String idDay = parts[1].split(":")[2]; // .split("-")[0]; // RS-2020.02.02
 		String[] atbLineID = parts[2].split(":");
 		
 		String[] lineIdTour = atbLineID[2].split("_"); // RS-2020.01.30
@@ -57,7 +57,7 @@ ATB:Line:0007-2019-01-01, ATB:Timetable:1600018-2019-01-01, ATB:VehicleJourney:0
 		line.value = lineIdTour[0];
 		tour.value = lineIdTour[2];
 		
-		dayc.value = idDay.substring(4,7);
+		dayc.value = idDay;		//dayc.value = idDay.substring(4,7); // RS-2020.02.02 Complete ID!
 		dirTms.value = parts[5];
 
 		//Referanse fra TURIX til TURMSTR er feltene Linjenr, Retning og Turmønsternr (GTFS: ATB:VehicleJourney:LineTour-YEAR-MM-DD)

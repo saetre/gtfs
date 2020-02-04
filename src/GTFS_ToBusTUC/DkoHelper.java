@@ -8,11 +8,11 @@
 package GTFS_ToBusTUC;
 
 public class DkoHelper {
-	/**
-		Specify where each field starts and stops <br>
 
+	int debugcounter = 0;
+
+	/**		Specify where each field starts and stops <br>
 		field	from	to<br>
-
 	*/
 	public DkoHelper() {
 		// line 1
@@ -37,25 +37,58 @@ public class DkoHelper {
 	}
 	
 	/**		Locates the fields in a text string 	*/
-	public void getLine2( String iObj ) {
+//	public void getLine2( String iObj ) {
+//		ConvertGTFS.debug( 2, "start="+masks.start+", stop="+masks.stop );
+//		x.value = iObj.substring(x.start-1,x.stop-1);
+//		y.value = iObj.substring(y.start-1,y.stop-1);
+//		dayc.value = iObj.substring(dayc.start-1,dayc.stop-1);
+//		mask1.value = iObj.substring(mask1.start-1,mask1.stop-1);
+//		mask2.value = iObj.substring(mask2.start-1,mask2.stop-1);
+//		mask3.value = iObj.substring(mask3.start-1,mask3.stop-1);
+//		mask4.value = iObj.substring(mask4.start-1,mask4.stop-1);
+//
+//		masks.value = iObj.substring(masks.start-1,masks.stop-1);
+//	}//getLine2
+	
+	/**		Locates the fields in a text string with FORMAT:
+	 * 			service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,	end_date
+	 * 
+				ATB:DayType:0100100_12_191003108126166,0,1,0,0,1,0,0,				20200201,	20200629
+	*/
+	public void getLine3( String iObj ){
 		ConvertGTFS.debug( 2, "start="+masks.start+", stop="+masks.stop );
-		x.value = iObj.substring(x.start-1,x.stop-1);
-		y.value = iObj.substring(y.start-1,y.stop-1);
-		dayc.value = iObj.substring(dayc.start-1,dayc.stop-1);
-		mask1.value = iObj.substring(mask1.start-1,mask1.stop-1);
-		mask2.value = iObj.substring(mask2.start-1,mask2.stop-1);
-		mask3.value = iObj.substring(mask3.start-1,mask3.stop-1);
-		mask4.value = iObj.substring(mask4.start-1,mask4.stop-1);
 
-		masks.value = iObj.substring(masks.start-1,masks.stop-1);
-	}//getLine2
+		String[] parts = iObj.split(",");		
+		x.value = parts[8]; 		y.value = parts[9];		// FROM date   TO date
+
+		//if (yymmdd.value == null){
+			yymmdd.value = x.value.substring(2,8);  // E.g. 200229 (leap-year day)
+			weekday.value = "1"; // RS-200202
+		//}
+
+		dayc.value = "'"+parts[0].split(":")[2]+"'"; // String atbDayId = 
+
+		mask1.value = parts[1]+parts[2]+parts[3]+parts[4]+parts[5]+parts[6]+parts[7];
+		mask2.value = mask1.value;
+		mask3.value = mask1.value;
+		mask4.value = mask1.value;
+		
+		String record = "";
+		//Example (Sundays and holidays):  ...00000010000001000000100000010000001000000100000010000001000000100000010000001000110110000010000001000000100001010000001000100100000011000001000000100000010000001000000000000000000000000000000000000000000000000
+		for ( int i=0; i < 401; i++ ){
+			record += parts[ 1+ (i % 7) ];
+		}
+		masks.value = record;
+
+	}//getLine3
+	
 	
 	/**	Function to display a instance	*/
 	public String toString() {
 		return "DkoHelper("+yymmdd+", "+weekday+", "+x+", "+y+", "+dayc+", "+mask1+", "+mask2+", "+mask3+", "+mask4+", '" +masks+ "')";
 	}//toString ==>    //   'Prolog Atom'
 	
-	/**		Diaplay each FieldHolder. The start and stop positions and the length are displayed to output.	*/
+	/**		Display each FieldHolder. The start and stop positions and the length are displayed to output.	*/
 	public void printStatus() {
 		System.out.println("DKO:");
 		System.out.println(yymmdd);

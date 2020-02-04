@@ -50,11 +50,12 @@ import java.util.*;
 	@author Tore Bruland	@since 2010.01.01
 	@author Tore Amble		@since 2011.01.01
 	@author Rune Sætre		@since 2011.12.01
+	@author Atsuya Hasegawa	@since 2019.08-09
 	@version 20180812 */
 
 public class ConvertGTFS {
 
-	public static final int  DEBUG  = 2;
+	public static final int  DEBUG  = 1;
 
 	public static final String INPUT_ENCODING = "utf-8";	//= "iso-8859-1";
 	public static final String OUTPUT_ENCODING = "utf-8";	//= "iso-8859-1";
@@ -66,16 +67,19 @@ public class ConvertGTFS {
 
 	//private static String GTFS_INPUT_ROOT_FOLDER = "../data/tables_GTFS_2020.01";	// RS-180810; //FIXED?: Inneholder zip-filer fra https://www.entur.org/dev/rutedata/
 	//private static String BUSTUC_OUTPUT_ROOT_FOLDER = "../../busstuc/db/tables"; //U-zippet
+
+//	private static String GTFS_INPUT_ROOT_FOLDER = "C:/cygwin/home/satre/git/busstuc/db/tables_GTFS_20.01";	// RS-180810; //FIXED?: Inneholder zip-filer fra https://www.entur.org/dev/rutedata/
+//	private static String BUSTUC_OUTPUT_ROOT_FOLDER = "C:/cygwin/home/satre/git/busstuc/db/tables"; //U-zippet
 	
-	private static String GTFS_INPUT_ROOT_FOLDER = "C:/cygwin/home/satre/git/busstuc/db/tables_GTFS_20.01";	// RS-180810; //FIXED?: Inneholder zip-filer fra https://www.entur.org/dev/rutedata/
-	private static String BUSTUC_OUTPUT_ROOT_FOLDER = "C:/cygwin/home/satre/git/busstuc/db/tables"; //U-zippet
+	private static String GTFS_INPUT_ROOT_FOLDER = "C:/Users/satre/git/busstuc/db/tables_GTFS_20.01";	// RS-180810; //FIXED?: Inneholder zip-filer fra https://www.entur.org/dev/rutedata/
+	private static String BUSTUC_OUTPUT_ROOT_FOLDER = "C:/Users/satre/git/busstuc/db/tables"; //U-zippet
 	
 
 	/** Holds input file sets */
 	public TreeMap<String,FileSet> index;
 
-	//private String rmask1; // TA-080220
-	//private int weekdayvalue;
+//	private String rmask1; // TA-080220  // AtB always starts on Monday!?
+//	private int weekdayvalue;
 
 	/**
 	 * Verbosity of the output
@@ -264,76 +268,64 @@ public class ConvertGTFS {
 
 				theFileSet = iter.next();
 
-				// read DKO file, the first record and get YYMMDD
+				
+				// read DKO file, the first record TO get FIRST FROM YYMMDD
 				debug(1, "Read dkoFile "+theFileSet.getDkoName() );
 				BufferedReader DkoFile = new BufferedReader( new FileReader( theFileSet.getDkoName() ) );
 
-				String header = DkoFile.readLine(); // RS-180811 Read header-line DO: Use CSV-files from PAsTAs project?
-				String record = DkoFile.readLine(); // TA-110208
-				
-				//String record = origrecord;                    
-				String[] parts = record.split(","); //service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date  === 
-														//ATB:Timetable:1600018-2018-08-13,1,0,1,0,0,0,0,20180813,20181220
-				header = parts[8]+"1"; // RS-180811 : Is FromDate really always Monday(1)?!
-				
+				String header = DkoFile.readLine(); // RS-180811 Read (SKIP) header-line DO:
+				//	service_id,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday,start_date,end_date
+
+				String record = DkoFile.readLine(); // TA-110208 RS-200202 First real information line
+			
+				String[] parts = record.split(","); 	//ATB:Timetable:1600018-2018-08-13,1,0,1,0,0,0,0,20180813,20181220
+				header = parts[8]+"1"; // RS-180811 : Is FromDate really always Monday(ie 1)?!
 				int count_dko=0;
-//				if (header != null){
-					theDKO.getLine1( header ); //header is for example = 20150112.1 (Date and dayofweek-number, 1=monday)
-					theFileSet.setFolderDate( BUSTUC_OUTPUT_ROOT_FOLDER, theDKO.yymmdd.value );
-					debug(0, "Processing FileSet:\n"+theFileSet );
+				theDKO.getLine1( header ); //header is for example = 20150112.1 (Date and dayofweek-number, 1=monday)
+				theFileSet.setFolderDate( BUSTUC_OUTPUT_ROOT_FOLDER, theDKO.yymmdd.value );
+				debug(0, "Processing FileSet:\n"+theFileSet );
 
-					//is directory already created?
-					File newDir = new File( theFileSet.getDirectory() );
-					if ( newDir.mkdir() ) {
-						System.out.println(theFileSet.getDirectory()+" created ...");
-					} else {
-						debug(-1, theFileSet.getDirectory()+" NOT CREATED!!! Using Existing folder?...");
-						//System.exit(-1);
-					}
-					theRegbus.directory = theFileSet.getDirectory();
-					theRegdep.directory = theFileSet.getDirectory();
-					theReghpl.directory = theFileSet.getDirectory();
-					theRegcomp.directory = theFileSet.getDirectory();
-					theRegdko.directory = theFileSet.getDirectory();
-					theRegpas.directory = theFileSet.getDirectory();
+				//is directory already created?
+				File newDir = new File( theFileSet.getDirectory() );
+				if ( newDir.mkdir() ) {
+					System.out.println(theFileSet.getDirectory()+" created ...");
+				} else {
+					debug(-1, theFileSet.getDirectory()+" NOT CREATED!!! Using Existing folder?...");
+					//System.exit(-1);
+				}
+				theRegbus.directory = theFileSet.getDirectory();
+				theRegdep.directory = theFileSet.getDirectory();
+				theReghpl.directory = theFileSet.getDirectory();
+				theRegcomp.directory = theFileSet.getDirectory();
+				theRegdko.directory = theFileSet.getDirectory();
+				theRegpas.directory = theFileSet.getDirectory();
 
-					//       theRegcut.directory = theFileSet.directory; // added TA
-
-//				}else{
-//					debug(0, "\nMISSING RECORD : Processing FileSet:\n"+theFileSet );
-//				}
-
-				// Read DKO file from record 1 -> END
+				//theRegcut.directory = theFileSet.directory; // added TA
+				// Read rest of DKO file from record 1 (line 2) --> END
 				while ( record != null ) {
 					count_dko++;
 
-					String[] infoNameDate = parts[0].split(":");
-					String[] nameYearMonthDate = infoNameDate[2].split("-");
-					// RS-150328 len=1 // Monday=1, Tuesday=2, etc.  TODO: GTFS ALWAYS VALID FROM A MONDAY?!?
-					record = nameYearMonthDate[0].substring(0, 3)+"1"+nameYearMonthDate[0].substring(3, 7);
+//					String[] infoNameDate = parts[0].split(":");
+//					String[] nameYearMonthDate = infoNameDate[2].split("-");
+//					// RS-150328 len=1 // Monday=1, Tuesday=2, etc.  TODO: GTFS ALWAYS VALID FROM A MONDAY?!?
+//					record = nameYearMonthDate[0].substring(0, 3)+"1"+nameYearMonthDate[0].substring(3, 7);
 					
-					//Example (Sundays and holidays):  1601001300000010000001000000100000010000001000000100000010000001000000100000010000001000110110000010000001000000100001010000001000100100000011000001000000100000010000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-					for ( int i=0; i < 401; i++ ){
-						record += parts[ 1+ (i % 7) ];
-					}
-
 					debug(2, "record.length="+record.length()+" "+record );
 
-					theDKO.getLine2( record );  // TA-110208
-
+					theDKO.getLine3( record );  // TA-110208 // RS-200202
 					theRegdko.setDko( theDKO.dayc.value, theDKO.x.value, theDKO.y.value, theDKO.mask1.value,
 							theDKO.mask2.value,theDKO.mask3.value,theDKO.mask4.value,theDKO.masks.value );
 
-					//weekdayvalue = new Integer( theDKO.weekday.value ).intValue(); // TA-080220
-					//rmask1 = rotatemask( weekdayvalue, theDKO.mask1.value ); 
+					//AtB always start on Monday? (GTFS)
+//					weekdayvalue = new Integer( theDKO.weekday.value ).intValue(); // TA-080220
+//					rmask1 = rotatemask( weekdayvalue, theDKO.mask1.value ); 
 
-					theRegdep.setDko( theDKO.dayc.value, theDKO.mask1.value ); // TA 081223
-				  //theRegdep.setDko( theDKO.dayc.value, rmask1); // ,theDKO.mask1.value);
+					theRegdep.setDko( theDKO.dayc.value, theDKO.mask1.value ); // rmask1 ); // TA 081223 // RS-2020.02.02 Always Monday First in AtB!?
 
 					record = DkoFile.readLine(); // TA-110208
-					if (record != null){
-						parts = record.split(","); //service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
-					}
+//					if (record != null){
+//						parts = record.split(","); //service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date
+//					}
 				}//while more records left to process
 
 				debug(1, count_dko+" CALENDAR records are read from "+theFileSet.getDkoName() );
@@ -383,7 +375,7 @@ public class ConvertGTFS {
 //					theDKO.printStatus();
 //					theHPL.printStatus();
 //					theTDA.printStatus();
-//					theTIX.printStatus();
+					theTIX.printStatus();
 //				}//if debug
 
 				//Continue reading TDA / TMS in the right version

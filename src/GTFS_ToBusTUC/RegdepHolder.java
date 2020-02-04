@@ -20,7 +20,7 @@ public class RegdepHolder {
 	/**	name of the directory */		
 	public String directory;
 	
-	/**	convering table for dmask1 */	
+	/**	Converting table for dmask1 */	
 	public TreeMap<String,String> index;
 
 	
@@ -49,15 +49,17 @@ public class RegdepHolder {
 		}
 	}//setTix
 
-	public void OLDsetTix(String iLine, String iTour, String iDeptime, String iTdax, String iDayc) {
-		departureday.add(new DepDayRec(iLine,iTour,iDeptime,iTdax,iDayc));
-	}	
+//	public void OLDsetTix(String iLine, String iTour, String iDeptime, String iTdax, String iDayc) {
+//		departureday.add(new DepDayRec(iLine,iTour,iDeptime,iTdax,iDayc));
+//	}	
 
 	/**	collects data from the dko file. */		
 	public void setDko(String iDayc, String iMask1) {
-		String dayc = Util.trimZero(iDayc);
+		//String dayc = Util.trimZero(iDayc); // RS-2020.02.02 Keep full Day-identifiers (- ATB:DayCode:)
 		//String mask1 = iMask1;
-		index.put(dayc,dayc); //  Tore Amble 081223 /////		index.put(dayc,"d"+mask1); 
+		if ( index.put(iDayc,iMask1) == null ) {		//  Tore Amble 081223 /////		index.put(dayc,"d"+mask1);
+			 
+		}// If first unique entry
 	}
 
 	/**		return converted dmask1	*/
@@ -65,7 +67,7 @@ public class RegdepHolder {
 		if ( index.containsKey(key) ){
 			return index.get(key);
 		}
-		ConvertGTFS.debug(    2, "********> RegdepHolder.getDmask1("+key+") did not find any dmask1" );
+		ConvertGTFS.debug(  2 , "********> RegdepHolder.getDmask1("+key+") did not find any dmask1" );
 		//return null; // TODO: Remove extra dates that are not active? RS-2019.01.02
 		return "no dmask1 found";
 	}
@@ -84,7 +86,7 @@ public class RegdepHolder {
 	            	ConvertGTFS.debug(-1, "SKIPPING OBSOLETE DATE: "+temp );
 	            }else{
 		            if ( tdaxIndex.containsKey( temp.tdax ) ){
-		                    //System.out.println("tdax:"+temp.tdax+" converted til "+tdaxIndex.get(temp.tdax));
+		                    ConvertGTFS.debug(2, "tdax:"+temp.tdax+" converted til "+tdaxIndex.get(temp.tdax) );
 		                    temp.tdax = tdaxIndex.get(temp.tdax);
 		            }
 		            if ( ! dep_unique.contains(temp) ) {
@@ -158,13 +160,14 @@ class DepDayRec {
 		tour=iTour.trim();  //
 		deptime=Util.trimZero(iDeptime);
 		tdax=Util.trimZero(iTdax);		
-		dayc=Util.trimZero(iDayc);	
+		// dayc=Util.trimZero(iDayc); // RS-2020.02.02 Keep entire mask Monday through Sunday first.
+		dayc=iDayc; 
 		dmask1="";			// DayMask found from DayCode instead?
 	}//CONSTRUCTOR DepDayRecord
 
 	public String toString() {
 	 	//return "departureday( bus_"+line+"_"+tour+", "+tdax+", "+deptime+", "+dmask1+" ("+dayc+") ).\n";
-	 	return "departureday( bus_"+line+"_"+tour+", "+tdax+", "+deptime+", "+dayc+" ).\n";
+	 	return "departureday( bus_"+line+"_"+tour+", "+tdax+", "+deptime+", '"+dayc+"' ).\n";
 	}
 
 	public boolean equals(Object o) {
