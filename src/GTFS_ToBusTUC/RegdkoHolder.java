@@ -56,6 +56,9 @@ public class RegdkoHolder {
 				outFile.write("/* -*- Mode:Prolog; coding:iso-8859-1; -*- */\n");
 
 			outFile.write("dkodate(" + issuedate + ", " + weekday + ")."  + "\n" + "\n"); // TA-080219
+			
+			outFile.write("%% DKO (DAYCODE, From , To , Week1 , W2 , W3 , W4 ,DAYSTRING)\n");
+			outFile.write("%% Only DAYCODE and DAYSTRING are actually used!\n");
 
 			String previous = "";
 			for (Iterator<String> iter=dko.iterator();iter.hasNext(); ) {
